@@ -34,19 +34,20 @@
             this.open_mysql_connection_button = new System.Windows.Forms.Button();
             this.cmbMySQLConnecties = new System.Windows.Forms.ComboBox();
             this.ReadTableOrders = new System.Windows.Forms.TabPage();
-            this.addProduct = new System.Windows.Forms.TabPage();
-            this.manageTableProducts = new System.Windows.Forms.TabPage();
-            this.connectionStatusLabel = new System.Windows.Forms.Label();
-            this.readTableButton = new System.Windows.Forms.Button();
             this.databaseOrders = new System.Windows.Forms.TextBox();
-            this.productNameTxtBox = new System.Windows.Forms.TextBox();
-            this.productNaamLabel = new System.Windows.Forms.Label();
-            this.productStockLabel = new System.Windows.Forms.Label();
-            this.productStockTxBox = new System.Windows.Forms.TextBox();
+            this.readTableButton = new System.Windows.Forms.Button();
+            this.addProduct = new System.Windows.Forms.TabPage();
             this.productToevoegenButton = new System.Windows.Forms.Button();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.leesProductenButton = new System.Windows.Forms.Button();
+            this.productStockTxBox = new System.Windows.Forms.TextBox();
+            this.productStockLabel = new System.Windows.Forms.Label();
+            this.productNaamLabel = new System.Windows.Forms.Label();
+            this.productNameTxtBox = new System.Windows.Forms.TextBox();
+            this.manageTableProducts = new System.Windows.Forms.TabPage();
             this.verwijderProductenButton = new System.Windows.Forms.Button();
+            this.leesProductenButton = new System.Windows.Forms.Button();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.connectionStatusLabel = new System.Windows.Forms.Label();
+            this.openAddOrderFrom = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.testConnection.SuspendLayout();
             this.ReadTableOrders.SuspendLayout();
@@ -69,6 +70,7 @@
             // 
             // testConnection
             // 
+            this.testConnection.Controls.Add(this.openAddOrderFrom);
             this.testConnection.Controls.Add(this.closeMySqlConnectionButton);
             this.testConnection.Controls.Add(this.open_mysql_connection_button);
             this.testConnection.Controls.Add(this.cmbMySQLConnecties);
@@ -122,6 +124,24 @@
             this.ReadTableOrders.UseVisualStyleBackColor = true;
             this.ReadTableOrders.Click += new System.EventHandler(this.tabPage2_Click);
             // 
+            // databaseOrders
+            // 
+            this.databaseOrders.Location = new System.Drawing.Point(257, 19);
+            this.databaseOrders.Multiline = true;
+            this.databaseOrders.Name = "databaseOrders";
+            this.databaseOrders.Size = new System.Drawing.Size(383, 133);
+            this.databaseOrders.TabIndex = 1;
+            // 
+            // readTableButton
+            // 
+            this.readTableButton.Location = new System.Drawing.Point(26, 19);
+            this.readTableButton.Name = "readTableButton";
+            this.readTableButton.Size = new System.Drawing.Size(211, 53);
+            this.readTableButton.TabIndex = 0;
+            this.readTableButton.Text = "Lees tabel uit";
+            this.readTableButton.UseVisualStyleBackColor = true;
+            this.readTableButton.Click += new System.EventHandler(this.readTableButton_Click);
+            // 
             // addProduct
             // 
             this.addProduct.Controls.Add(this.productToevoegenButton);
@@ -137,6 +157,49 @@
             this.addProduct.Text = "Toevoegen Product";
             this.addProduct.UseVisualStyleBackColor = true;
             // 
+            // productToevoegenButton
+            // 
+            this.productToevoegenButton.Location = new System.Drawing.Point(63, 193);
+            this.productToevoegenButton.Name = "productToevoegenButton";
+            this.productToevoegenButton.Size = new System.Drawing.Size(121, 46);
+            this.productToevoegenButton.TabIndex = 4;
+            this.productToevoegenButton.Text = "Product toevoegen";
+            this.productToevoegenButton.UseVisualStyleBackColor = true;
+            this.productToevoegenButton.Click += new System.EventHandler(this.productToevoegenButton_Click);
+            // 
+            // productStockTxBox
+            // 
+            this.productStockTxBox.Location = new System.Drawing.Point(72, 150);
+            this.productStockTxBox.Name = "productStockTxBox";
+            this.productStockTxBox.Size = new System.Drawing.Size(112, 20);
+            this.productStockTxBox.TabIndex = 3;
+            // 
+            // productStockLabel
+            // 
+            this.productStockLabel.AutoSize = true;
+            this.productStockLabel.Location = new System.Drawing.Point(69, 125);
+            this.productStockLabel.Name = "productStockLabel";
+            this.productStockLabel.Size = new System.Drawing.Size(72, 13);
+            this.productStockLabel.TabIndex = 2;
+            this.productStockLabel.Text = "ProductStock";
+            // 
+            // productNaamLabel
+            // 
+            this.productNaamLabel.AutoSize = true;
+            this.productNaamLabel.Location = new System.Drawing.Point(69, 31);
+            this.productNaamLabel.Name = "productNaamLabel";
+            this.productNaamLabel.Size = new System.Drawing.Size(70, 13);
+            this.productNaamLabel.TabIndex = 1;
+            this.productNaamLabel.Text = "Productnaam";
+            // 
+            // productNameTxtBox
+            // 
+            this.productNameTxtBox.Location = new System.Drawing.Point(72, 47);
+            this.productNameTxtBox.Multiline = true;
+            this.productNameTxtBox.Name = "productNameTxtBox";
+            this.productNameTxtBox.Size = new System.Drawing.Size(201, 56);
+            this.productNameTxtBox.TabIndex = 0;
+            // 
             // manageTableProducts
             // 
             this.manageTableProducts.Controls.Add(this.verwijderProductenButton);
@@ -150,86 +213,15 @@
             this.manageTableProducts.Text = "Beheer Tabel Producten";
             this.manageTableProducts.UseVisualStyleBackColor = true;
             // 
-            // connectionStatusLabel
+            // verwijderProductenButton
             // 
-            this.connectionStatusLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.connectionStatusLabel.Location = new System.Drawing.Point(81, 21);
-            this.connectionStatusLabel.Name = "connectionStatusLabel";
-            this.connectionStatusLabel.Size = new System.Drawing.Size(531, 41);
-            this.connectionStatusLabel.TabIndex = 1;
-            this.connectionStatusLabel.Text = "CONNECTION STATUS";
-            this.connectionStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // readTableButton
-            // 
-            this.readTableButton.Location = new System.Drawing.Point(26, 19);
-            this.readTableButton.Name = "readTableButton";
-            this.readTableButton.Size = new System.Drawing.Size(211, 53);
-            this.readTableButton.TabIndex = 0;
-            this.readTableButton.Text = "Lees tabel uit";
-            this.readTableButton.UseVisualStyleBackColor = true;
-            this.readTableButton.Click += new System.EventHandler(this.readTableButton_Click);
-            // 
-            // databaseOrders
-            // 
-            this.databaseOrders.Location = new System.Drawing.Point(257, 19);
-            this.databaseOrders.Multiline = true;
-            this.databaseOrders.Name = "databaseOrders";
-            this.databaseOrders.Size = new System.Drawing.Size(383, 133);
-            this.databaseOrders.TabIndex = 1;
-            // 
-            // productNameTxtBox
-            // 
-            this.productNameTxtBox.Location = new System.Drawing.Point(72, 47);
-            this.productNameTxtBox.Multiline = true;
-            this.productNameTxtBox.Name = "productNameTxtBox";
-            this.productNameTxtBox.Size = new System.Drawing.Size(201, 56);
-            this.productNameTxtBox.TabIndex = 0;
-            // 
-            // productNaamLabel
-            // 
-            this.productNaamLabel.AutoSize = true;
-            this.productNaamLabel.Location = new System.Drawing.Point(69, 31);
-            this.productNaamLabel.Name = "productNaamLabel";
-            this.productNaamLabel.Size = new System.Drawing.Size(70, 13);
-            this.productNaamLabel.TabIndex = 1;
-            this.productNaamLabel.Text = "Productnaam";
-            // 
-            // productStockLabel
-            // 
-            this.productStockLabel.AutoSize = true;
-            this.productStockLabel.Location = new System.Drawing.Point(69, 125);
-            this.productStockLabel.Name = "productStockLabel";
-            this.productStockLabel.Size = new System.Drawing.Size(72, 13);
-            this.productStockLabel.TabIndex = 2;
-            this.productStockLabel.Text = "ProductStock";
-            // 
-            // productStockTxBox
-            // 
-            this.productStockTxBox.Location = new System.Drawing.Point(72, 150);
-            this.productStockTxBox.Name = "productStockTxBox";
-            this.productStockTxBox.Size = new System.Drawing.Size(112, 20);
-            this.productStockTxBox.TabIndex = 3;
-            // 
-            // productToevoegenButton
-            // 
-            this.productToevoegenButton.Location = new System.Drawing.Point(63, 193);
-            this.productToevoegenButton.Name = "productToevoegenButton";
-            this.productToevoegenButton.Size = new System.Drawing.Size(121, 46);
-            this.productToevoegenButton.TabIndex = 4;
-            this.productToevoegenButton.Text = "Product toevoegen";
-            this.productToevoegenButton.UseVisualStyleBackColor = true;
-            this.productToevoegenButton.Click += new System.EventHandler(this.productToevoegenButton_Click);
-            // 
-            // dataGridView1
-            // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(16, 6);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(628, 198);
-            this.dataGridView1.TabIndex = 0;
-            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
-            this.dataGridView1.SelectionChanged += new System.EventHandler(this.dataGridView1_SelectionChanged);
+            this.verwijderProductenButton.Location = new System.Drawing.Point(454, 233);
+            this.verwijderProductenButton.Name = "verwijderProductenButton";
+            this.verwijderProductenButton.Size = new System.Drawing.Size(153, 23);
+            this.verwijderProductenButton.TabIndex = 2;
+            this.verwijderProductenButton.Text = "Verwijder product";
+            this.verwijderProductenButton.UseVisualStyleBackColor = true;
+            this.verwijderProductenButton.Click += new System.EventHandler(this.verwijderProductenButton_Click);
             // 
             // leesProductenButton
             // 
@@ -241,15 +233,35 @@
             this.leesProductenButton.UseVisualStyleBackColor = true;
             this.leesProductenButton.Click += new System.EventHandler(this.leesProductenButton_Click);
             // 
-            // verwijderProductenButton
+            // dataGridView1
             // 
-            this.verwijderProductenButton.Location = new System.Drawing.Point(454, 233);
-            this.verwijderProductenButton.Name = "verwijderProductenButton";
-            this.verwijderProductenButton.Size = new System.Drawing.Size(153, 23);
-            this.verwijderProductenButton.TabIndex = 2;
-            this.verwijderProductenButton.Text = "Verwijder product";
-            this.verwijderProductenButton.UseVisualStyleBackColor = true;
-            this.verwijderProductenButton.Click += new System.EventHandler(this.verwijderProductenButton_Click);
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Location = new System.Drawing.Point(16, 6);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.Size = new System.Drawing.Size(628, 198);
+            this.dataGridView1.TabIndex = 0;
+            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
+            this.dataGridView1.SelectionChanged += new System.EventHandler(this.dataGridView1_SelectionChanged);
+            // 
+            // connectionStatusLabel
+            // 
+            this.connectionStatusLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.connectionStatusLabel.Location = new System.Drawing.Point(81, 21);
+            this.connectionStatusLabel.Name = "connectionStatusLabel";
+            this.connectionStatusLabel.Size = new System.Drawing.Size(531, 41);
+            this.connectionStatusLabel.TabIndex = 1;
+            this.connectionStatusLabel.Text = "CONNECTION STATUS";
+            this.connectionStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // openAddOrderFrom
+            // 
+            this.openAddOrderFrom.Location = new System.Drawing.Point(279, 177);
+            this.openAddOrderFrom.Name = "openAddOrderFrom";
+            this.openAddOrderFrom.Size = new System.Drawing.Size(145, 74);
+            this.openAddOrderFrom.TabIndex = 3;
+            this.openAddOrderFrom.Text = "Order toeveoegen";
+            this.openAddOrderFrom.UseVisualStyleBackColor = true;
+            this.openAddOrderFrom.Click += new System.EventHandler(this.openAddOrderFrom_Click);
             // 
             // Form1
             // 
@@ -293,6 +305,7 @@
         private System.Windows.Forms.Button verwijderProductenButton;
         private System.Windows.Forms.Button leesProductenButton;
         private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.Button openAddOrderFrom;
     }
 }
 

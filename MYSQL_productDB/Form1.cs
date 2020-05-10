@@ -14,6 +14,9 @@ namespace MYSQL_productDB
 {
     public partial class Form1 : Form
     {
+        public delegate void openForm(List<String> klantNamen, List<String> producten, Form1 parent);
+        public event openForm del;
+
         ConnectionStringSettingsCollection connectionStringSettings = new ConnectionStringSettingsCollection();
         Dictionary<string, string> connStringsDict = new Dictionary<string, string>();
         MySqlConnection mySqlConnection;
@@ -24,6 +27,9 @@ namespace MYSQL_productDB
         MySqlCommand mySqlComm;
         DataTable myDatatable;
         MySqlDataAdapter myAdapter;
+
+
+        addOrdersForm newForm = new addOrdersForm();
 
         public Form1()
         {
@@ -37,7 +43,6 @@ namespace MYSQL_productDB
             connectionStringSettings = GetConnectionStrings();
             connStringsDict = UpdateConnectionsComboBox(cmbMySQLConnecties, connectionStringSettings);
             mySqlConnStr = cmbMySQLConnecties.SelectedValue.ToString();
-
         }
 
         private Dictionary<string, string> UpdateConnectionsComboBox(ComboBox cb, ConnectionStringSettingsCollection cssc)
@@ -143,7 +148,7 @@ namespace MYSQL_productDB
                 {
                     if (mySqlConn.State == ConnectionState.Open)
                     {
-                        connectionStatusLabel.Text= "verbinding met database gemaakt";
+                        connectionStatusLabel.Text = "verbinding met database gemaakt";
                     }
                     else
                     {
@@ -390,6 +395,135 @@ namespace MYSQL_productDB
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
+        }
+
+        public List<String> readKlantNamen()
+        {
+            List<String> klantNamen = new List<string>();
+            try
+            {
+                using (mySqlConn = OpenMySQLverbinding(mySqlConnStr))
+                {
+                    if(mySqlConn.State == ConnectionState.Open)
+                    {
+                        mySqlComm = new MySqlCommand();
+                        mySqlComm.Connection = mySqlConn;
+                        mySqlComm.CommandText = "select klantNaam from klanten;";
+                        mySqlComm.CommandType = CommandType.Text;
+
+                        using (MySqlDataReader mySqlOut = mySqlComm.ExecuteReader())
+                        {
+                            while(mySqlOut.Read())
+                            {
+                                klantNamen.Add(mySqlOut[0].ToString());
+                            }
+
+                            mySqlOut.Close();
+                        }
+
+                        mySqlConn.Close();
+
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                if (ex is NullReferenceException || ex is MySqlException)
+                {
+                    MessageBox.Show(ex.Message, "MySQL Connecite", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else throw;
+            }
+            return klantNamen;
+        }
+
+        public List<String> readProductNamen()
+        {
+            List<String> productNamen = new List<string>();
+            try
+            {
+                using (mySqlConn = OpenMySQLverbinding(mySqlConnStr))
+                {
+                    if (mySqlConn.State == ConnectionState.Open)
+                    {
+                        mySqlComm = new MySqlCommand();
+                        mySqlComm.Connection = mySqlConn;
+                        mySqlComm.CommandText = "select productNaam from producten;";
+                        mySqlComm.CommandType = CommandType.Text;
+
+                        using (MySqlDataReader mySqlOut = mySqlComm.ExecuteReader())
+                        {
+                            while (mySqlOut.Read())
+                            {
+                                productNamen.Add(mySqlOut[0].ToString());
+                            }
+
+                            mySqlOut.Close();
+                        }
+
+                        mySqlConn.Close();
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex is NullReferenceException || ex is MySqlException)
+                {
+                    MessageBox.Show(ex.Message, "MySQL Connecite", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else throw;
+            }
+            return productNamen;
+        }
+
+        private void openAddOrderFrom_Click(object sender, EventArgs e)
+        {
+            del += newForm.processData;
+            del(readKlantNamen(), readProductNamen(), this);
+            newForm.Show();
+        }
+
+        public void addOrder(String klantNaam, String productNaam, int hoeveelheid, String datum)
+        {
+            try
+            {
+                using (mySqlConn = OpenMySQLverbinding(mySqlConnStr))
+                {
+                    if(mySqlConn.State == ConnectionState.Open)
+                    {
+                        using (mySqlComm = new MySqlCommand())
+                        {
+                            mySqlComm.Connection = mySqlConn;
+                            mySqlComm.Parameters.AddWithValue("@datum", datum);
+                            mySqlComm.Parameters.AddWithValue("@klantNaam", klantNaam);
+                            mySqlComm.Parameters.AddWithValue("@productNaam", productNaam);
+                            mySqlComm.Parameters.AddWithValue("@hoeveelheid", hoeveelheid);
+                            mySqlComm.CommandText = "insert into orders(bestelDatum, klantID, productID, bestelHoeveelheid, afgehandeld)" +
+                                "values" +
+                                "(@datum, (select klantID from klanten where klantNaam = @klantNaam)," +
+                                "(select productID from producten where productNaam = @productNaam), @hoeveelheid, 0);";
+                            mySqlComm.CommandType = CommandType.Text;
+                            mySqlComm.ExecuteNonQuery();
+
+                            mySqlConn.Close();
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Geen connectie met database", "MySQL Connectie", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex is NullReferenceException || ex is MySqlException)
+                {
+                    MessageBox.Show(ex.Message, "MySQL Connectie", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else throw;
+            }
         }
     }
 }
